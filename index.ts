@@ -18,6 +18,9 @@ cloudinary.config({
 const app = express();
 app.use(cors())
 app.use(express.json())
+app.get("/health",async(req:Request,res:Response)=>{
+  res.send({message:"health OK!"})
+});
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("working url..")
 })
