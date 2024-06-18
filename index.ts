@@ -8,6 +8,7 @@ import MyUserRouter from './routes/myUserRoute';
 import AdminProductRouter from './routes/adminProductRoute';
 import { v2 as cloudinary } from 'cloudinary';
 import productRouter from './routes/productRoute';
+import orderRouter from './routes/orderRoute';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -17,6 +18,7 @@ cloudinary.config({
 
 const app = express();
 app.use(cors())
+app.use("/api/order/checkout/webhook",express.raw({type:"*/*"}));
 app.use(express.json())
 app.get("/health",async(req:Request,res:Response)=>{
   res.send({message:"health OK!"})
@@ -28,6 +30,8 @@ app.use("/api/user", userRouter)
 app.use("/api/my/user", MyUserRouter)
 app.use("/api/admin/product", AdminProductRouter)
 app.use("/api/product",productRouter)
+app.use("/api/order",orderRouter)
+
 app.use(notFound)
 
 const port = 7000
