@@ -115,11 +115,24 @@ const createSession = async(
      metadata:{
         orderId
      },
-     success_url: `${FRONTEND_URL}/order-status?success=true`,
+     success_url: `${FRONTEND_URL}/afterPayment?success=true`,
      cancel_url: `${FRONTEND_URL}/cart?cancelled=true`
   })
   return sessionData;
 }
 
+const getMyorders = async(req:Request,res:Response)=>{
+   try{
+     const order = await Order.find({user:req.userId}).populate("user")
+     if(!order){
+        return res.status(404).json({message:"order not found"})
+     }
+     res.status(200).json(order)
+   }catch(error){
+    console.log(error)
+    res.status(500).json({message:error})
+   }
+}
 
-export default {createCheckOutSession,stripeWebhookHandler}
+
+export default {createCheckOutSession,stripeWebhookHandler,getMyorders}

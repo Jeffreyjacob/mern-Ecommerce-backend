@@ -11,5 +11,6 @@ router.route("/checkout/create-checkout-session").post(
     Controller.createCheckOutSession
 )
 router.route("/checkout/webhook").post(Controller.stripeWebhookHandler)
+router.route("/").get(jwtCheck,JwtParse,Controller.getMyorders)
 
 export default router
