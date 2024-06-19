@@ -64,6 +64,20 @@ const getProductbyUser = async(req:Request,res:Response)=>{
     }
 }
 
+const deleteProductbyUser = async(req:Request,res:Response)=>{
+    try{
+        const product = await Product.findOne({user:req.userId,_id:req.query.id})
+        if(!product){
+          res.status(404).json({message:"Product not found"})
+        }
+        const deletedProduct = await Product.findByIdAndDelete(product?._id)
+        res.status(200).json({message:"product deleted"})
+    }catch(error){
+      console.log(error)
+      res.status(500).json({message:error})
+    }
+}
+
 const UploadImage = async(file:Express.Multer.File)=>{
   const image = file
   const base64Image = Buffer.from(image.buffer).toString("base64")
@@ -73,4 +87,4 @@ const UploadImage = async(file:Express.Multer.File)=>{
 }
 
 
-export default {createProduct,getProductbyUser}
+export default {createProduct,getProductbyUser,deleteProductbyUser}

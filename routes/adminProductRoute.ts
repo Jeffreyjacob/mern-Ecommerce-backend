@@ -22,6 +22,7 @@ router.route("/").post(
     Controller.createProduct
 )
 router.route("/").get(jwtCheck,JwtParse,Controller.getProductbyUser)
+router.route("/delete").delete(jwtCheck,JwtParse,Controller.deleteProductbyUser)
 
 
 
