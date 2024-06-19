@@ -26,3 +26,11 @@ export const ValidateCreateProduct =[
     body("size").isArray().withMessage("size must be an array").not().isEmpty().withMessage("size array can not be empty"),
     handleValidationError
 ]
+
+export const ValidateCreateWishlist = [
+    body("title").isString().notEmpty().withMessage("title must be a string"),
+    body("price").isFloat({min:0}).withMessage("price is required and must be positive"),
+    body("Id").isString().notEmpty().withMessage("Id must be string"),
+    body("imageUrl").isString().notEmpty().withMessage("imageUrl must be a string"),
+    handleValidationError
+]

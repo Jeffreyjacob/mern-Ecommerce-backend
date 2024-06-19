@@ -9,6 +9,7 @@ import AdminProductRouter from './routes/adminProductRoute';
 import { v2 as cloudinary } from 'cloudinary';
 import productRouter from './routes/productRoute';
 import orderRouter from './routes/orderRoute';
+import wishlistRouter from './routes/wishlistRoute';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -31,6 +32,7 @@ app.use("/api/my/user", MyUserRouter)
 app.use("/api/admin/product", AdminProductRouter)
 app.use("/api/product",productRouter)
 app.use("/api/order",orderRouter)
+app.use("/api/wishlist",wishlistRouter)
 
 app.use(notFound)
 

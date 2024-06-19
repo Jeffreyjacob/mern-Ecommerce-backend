@@ -6,6 +6,7 @@ import User from "../model/usermodel";
 
 
 
+
 const createProduct = async(req:Request,res:Response)=>{
     try{
       const imageUrl = await UploadImage(req.file as Express.Multer.File)
@@ -20,6 +21,8 @@ const createProduct = async(req:Request,res:Response)=>{
       res.status(500).json({message:error})
     }
 }
+
+
 
 const getProductbyUser = async(req:Request,res:Response)=>{
     try{
