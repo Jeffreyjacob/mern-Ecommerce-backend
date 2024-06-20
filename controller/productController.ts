@@ -46,4 +46,48 @@ const getRelatedProduct = async(req:Request,res:Response)=>{
       }
 }
 
-export default {getAllProduct,getProductById,getRelatedProduct}
+  const SearchProduct = async (req:Request,res:Response)=>{
+     try{
+        const querySearch = (req.query.searchQuery as string) || ""
+        const price = (req.query.price as string) || ""
+        const category = (req.query.category as string) || ""
+        const size = (req.query.size as string) || ""
+        const page = parseInt(req.query.page  as string) || 1
+
+        let query:any = {}
+        const totalProduct = await Product.countDocuments(query)
+        if(querySearch){
+           const searchRegex = new RegExp(querySearch,'i')
+           query.title = { $regex: searchRegex };
+        }
+        if(price){
+          query.price = { $lte:parseFloat(price)};
+        }
+        if(size){
+          const sizeArray = size.split(",").map(
+            (size)=> RegExp(size,"i")
+          )
+          query.size = {$all:sizeArray}
+        }
+        const validateCategories = ["clothes","shoes","jeweleries","other-accessories"]
+        if(category && validateCategories.includes(category)){
+            query.category = {$all:category}
+        }
+        const pageSize = 9
+        const skip = (page - 1) * pageSize
+        const product = await Product.find(query).skip(skip).limit(pageSize).lean()
+        res.status(200).json({
+          data:product,
+          pagination:{
+            totalProduct,
+            page,
+            pages:Math.ceil(totalProduct/pageSize),
+          }
+        })
+     }catch(error){
+      console.log(error)
+      res.status(500).json({message:error})
+     }
+  }
+
+export default {getAllProduct,getProductById,getRelatedProduct,SearchProduct}

@@ -20,7 +20,7 @@ const handleValidationError =  async(req:Request,res:Response,next:NextFunction)
 
 export const ValidateCreateProduct =[
     body("title").isString().notEmpty().withMessage("title must be a string"),
-    body("price").isString().notEmpty().withMessage("price must be a string"),
+    body("price").isFloat({min:0}).withMessage("price is required and must be positive"),
     body("category").isString().notEmpty().withMessage("category must be a string"),
     body("avaliableQuantity").isString().notEmpty().withMessage("avaliableQuantity must be a string"),
     body("size").isArray().withMessage("size must be an array").not().isEmpty().withMessage("size array can not be empty"),

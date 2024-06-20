@@ -12,6 +12,7 @@ const createProduct = async(req:Request,res:Response)=>{
       const imageUrl = await UploadImage(req.file as Express.Multer.File)
       const product = new Product(req.body);
       product.user = new mongoose.Types.ObjectId(req.userId);
+      product.price = parseInt(req.body.price)
       product.imageUrl = imageUrl;
       product.lastUpdate = new Date();
       await product.save()
